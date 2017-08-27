@@ -1,0 +1,14 @@
+{
+  "name": "qa",
+  "description": "一个问答社区",
+  "main": "app.js",
+  "authors": [
+    "wzm"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "underscore": "^1.8.3"
+  }
+}
