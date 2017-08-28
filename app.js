@@ -13,6 +13,7 @@ const app = express();
 app.locals.config = config;
 
 app.use('/www', express.static('www'));
+app.use('/upload', express.static('upload'));
 
 app.use(cookieParser());
 

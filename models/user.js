@@ -7,7 +7,7 @@ function User(user){
 	this.username = user.username;
 	this.password = user.password;
 	this.email = user.email;
-	this.avatar = user.avatar;
+	this.avatarPath = user.avatarPath;
 }
 
 User.prototype.save = function(callback){
@@ -27,6 +27,15 @@ User.getByUsername = function(username, callback){
 			return callback(err, null);
 		}
 		callback(null, result[0]);
+	});
+};
+
+User.changeAvatarById = function(id, callback){
+	db.query('UPDATE user SET avatarPath = ? WHERE id = ?', [avatarPath, id], function(err, result){
+		if(err){
+			return callback(err, null);
+		}
+		callback(null, result);
 	});
 };
 

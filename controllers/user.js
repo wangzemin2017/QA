@@ -3,6 +3,7 @@
 
 const User = require('../models/user.js');
 const utility = require('utility');
+const formidable = require('formidable');
 
 const uPattern = /^[a-zA-Z0-9_-]{6,15}$/;
 const ePattern = /^([0-9a-zA-Z_\-\.])+\@([0-9a-zA-Z_\-\.])+\.([a-zA-Z]{2,4})$/;
@@ -135,4 +136,25 @@ exports.showPersonalPage = function(req, res, next){
 			user: result
 		});
 	});
+};
+
+exports.changeAvatar = function(req, res, next){
+	let form = new formidable.IncomingForm();
+	form.encoding = 'utf-8';
+	form.uploadDir = req.app.locals.config.avatarDir;
+
+	form.parse(req, function(err, fields, files){
+		if(err){
+			return res.json({
+				code: '0',
+				message: 'fail'
+			});
+		}
+
+		let avatar = files.avatar;
+		let tmpPath = avatar.path;
+		let size = avatar.size;
+		let name = avatar.name;
+		
+	})
 }
