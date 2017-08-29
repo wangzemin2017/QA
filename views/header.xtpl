@@ -57,7 +57,7 @@
 
       {{#if (user)}}
       <a href="#" class="aw-user-nav-dropdown">
-      <img alt="avatar" src="/www/img/{{user.avatar}}"/>
+      <img alt="avatar" src="/www/img/{{user.avatarPath}}"/>
       </a>
       <div class="aw-dropdown dropdown-list pull-right">
       <ul class="aw-dropdown-list">
@@ -74,14 +74,6 @@
       </span>
       <!-- end 登陆&注册栏 -->
       {{/if}}
-
-
-
-
-
-
-
-
 
     </div>
     <!-- end 用户栏 -->

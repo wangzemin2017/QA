@@ -4,6 +4,9 @@
 const User = require('../models/user.js');
 const utility = require('utility');
 const formidable = require('formidable');
+const path = require('path');
+const fs = require('fs');
+const gm = require('gm');
 
 const uPattern = /^[a-zA-Z0-9_-]{6,15}$/;
 const ePattern = /^([0-9a-zA-Z_\-\.])+\@([0-9a-zA-Z_\-\.])+\.([a-zA-Z]{2,4})$/;
@@ -20,7 +23,7 @@ exports.register = function(req, res, next){
 	let password = req.body.password;
 	let email = req.body.email;
 	let vcode = req.body.vcode;
-	let avatar = 'avatar.png';
+	let avatarPath = 'avatar.png';
 
 	if(username === '' || password === '' || email === ''){
 		return res.json({
@@ -43,7 +46,7 @@ exports.register = function(req, res, next){
 		if(err){
 			return next(err);
 		}
-
+		
 		if(result){
 			return res.json({
 				code: '0',
@@ -57,7 +60,7 @@ exports.register = function(req, res, next){
 			username,
 			password,
 			email,
-			avatar
+			avatarPath
 		});
 
 		user.save(function(err, result){
@@ -150,11 +153,32 @@ exports.changeAvatar = function(req, res, next){
 				message: 'fail'
 			});
 		}
-
+		
 		let avatar = files.avatar;
 		let tmpPath = avatar.path;
 		let size = avatar.size;
 		let name = avatar.name;
 		
-	})
-}
+		let newPath = tmpPath + path.extname(name);
+		fs.rename(tmpPath, newPath, function(){
+			gm(newPath).resize(100, 100, '!')
+				.write(newPath, function(err){
+					if(err){
+						return next(err);
+					}
+					let userId = req.session.user.id;
+					User.changeAvatarById(path.basename(newPath), userId, function(err, result){
+						if(err){
+							return next(err);
+						}
+						if(result.affectedRows > 0){
+							return res.json({
+								code: '1',
+								message: `/upload/avatar/${path.basename(newPath)}`
+							});
+						}
+					});
+				});
+		});
+	});
+};

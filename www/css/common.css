@@ -222,7 +222,6 @@ body {
     font-size: 14px;
     line-height: 160%;
     color: #666;
-    background: url(img/bg.gif) repeat
 }
 
 body, input, button, select, textarea, h1, h2, h3, h4, h5, h6 {
@@ -4425,7 +4424,7 @@ body {
 }
 
 .aw-top-menu-wrap {
-    background-color: #66aaff;
+    background-color: #A1D8E6;
 }
 
 .aw-top-nav .navbar-nav > li > a:hover, .aw-top-nav .navbar-nav > li > a:focus {
@@ -4450,7 +4449,7 @@ body {
 .aw-register-box .mod-head > a {
     display: block;
     height: 120px;
-    background: url(img/Laravel-Four-Revised-Icon.png) no-repeat;
+    background: url(img/wenti.png) no-repeat;
     background-position: center top;
     background-size: 120px 120px
 }

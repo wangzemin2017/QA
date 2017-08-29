@@ -84,7 +84,7 @@
         }
       },
       error: function () {
-        alert('注册失败，请重试'); // 你们不要alert
+        alert('注册失败，请重试');
       }
     });
 

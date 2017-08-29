@@ -31,12 +31,12 @@
                         action="http://wenda.golaravel.com/account/ajax/profile_setting/">
                     <div class="mod-body">
                       <dl>
-                        <dt>账号:</dt>
-                        <dd>123456@qq.com</dd>
+                        <dt>用户名:</dt>
+                        <dd>{{user.username}}</dd>
                       </dl>
                       <dl>
-                        <dt>真实姓名:</dt>
-                        <dd>wang</dd>
+                        <dt>邮箱:</dt>
+                        <dd>{{user.email}}</dd>
                       </dl>
                       <dl>
                         <dt>性别:</dt>
@@ -52,8 +52,8 @@
                       <dl>
                         <dt><label>现居:</label></dt>
                         <dd>
-                          <select name="province" class="select_area"></select> <select name="city"
-                                                                                        class="select_area"></select>
+                          <select name="province" class="select_area"></select> <select name="city" class="select_area">
+                          </select>
                         </dd>
                       </dl>
                       <dl>
@@ -65,9 +65,7 @@
                       <!-- 上传头像 -->
                       <div class="side-bar">
                         <dl>
-                          <dt class="pull-left"><img data-id="" class="aw-border-radius-5"
-                                                     src="/uploads/avatar/{{avatar}}"
-                                                     alt="" id="img_avatar"/></dt>
+                          <dt class="pull-left"><img data-id="" class="aw-border-radius-5" src="/upload/avatar/{{avatarPath}}" alt="用户头像" id="img_avatar"/></dt>
                           <dd class="pull-left">
                             <h5>头像设置</h5>
                             <p>支持 jpg、gif、png 等格式的图片</p>
@@ -133,15 +131,17 @@
       var xhr = new XMLHttpRequest();
 
       // 2. 配置请求
-      xhr.open('post', '/user/avatar');
+      xhr.open('post', '/settings');
 
       // 3. 设置成功之后的回调函数
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log(xhr.responseText)
           var data = JSON.parse(xhr.responseText);
 
           if (data && data.code == 1) {
-            var src = data.msg;
+            var src = data.message;
+            console.log(src)
 
             // 上传成功之后，将用户头像重新设置一下src即可
 

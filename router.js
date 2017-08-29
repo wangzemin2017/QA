@@ -18,6 +18,7 @@ router.get('/login', userCtrl.showLogin);
 router.post('/login', userCtrl.login);
 router.get('/logout', userCtrl.logout);
 router.get('/settings', userCtrl.showPersonalPage);
+router.post('/settings', userCtrl.changeAvatar);
 
 router.get('/ask', questionCtrl.showAsk);
 router.post('/ask', questionCtrl.ask);

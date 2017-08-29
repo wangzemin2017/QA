@@ -11,8 +11,8 @@ function User(user){
 }
 
 User.prototype.save = function(callback){
-	db.query('INSERT INTO user VALUES(NULL, ?, ?, ?)',
-		[this.username, this.password, this.email],
+	db.query('INSERT INTO user VALUES(NULL, ?, ?, ?, ?)',
+		[this.username, this.password, this.email, this.avatarPath],
 		function(err, result){
 			if(err){
 				return callback(err, null);
@@ -30,7 +30,7 @@ User.getByUsername = function(username, callback){
 	});
 };
 
-User.changeAvatarById = function(id, callback){
+User.changeAvatarById = function(avatarPath, id, callback){
 	db.query('UPDATE user SET avatarPath = ? WHERE id = ?', [avatarPath, id], function(err, result){
 		if(err){
 			return callback(err, null);
