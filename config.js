@@ -7,6 +7,6 @@ module.exports = {
 	debug: true,
 	secret: 'wzm',
 	pageSize: 6,
-	uploadDir: path.join(__dirname, 'upload'),
+	uploadDir: path.join(__dirname, 'upload/picture'),
 	avatarDir: path.join(__dirname, 'upload/avatar')
 }

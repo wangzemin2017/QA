@@ -155,12 +155,12 @@ exports.changeAvatar = function(req, res, next){
 		}
 		
 		let avatar = files.avatar;
-		let tmpPath = avatar.path;
+		let temPath = avatar.path;
 		let size = avatar.size;
 		let name = avatar.name;
 		
-		let newPath = tmpPath + path.extname(name);
-		fs.rename(tmpPath, newPath, function(){
+		let newPath = temPath + path.extname(name);
+		fs.rename(temPath, newPath, function(){
 			gm(newPath).resize(100, 100, '!')
 				.write(newPath, function(err){
 					if(err){

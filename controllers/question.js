@@ -5,6 +5,9 @@ const User = require('../models/user.js');
 const Question = require('../models/question.js');
 const moment = require('moment');
 const md = require('markdown-it');
+const formidable = require('formidable');
+const fs = require('fs');
+const path = require('path');
 
 exports.showAsk = function(req, res, next){
 	let username = req.session.user.username;
@@ -132,6 +135,33 @@ exports.showByPageNum = function(req, res, next){
 		});
 		res.json({
 			questions: questions
+		});
+	});
+};
+
+exports.uploadPicture = function(req, res, next){
+	let form = new formidable.IncomingForm();
+	form.encoding = 'utf-8';
+	form.uploadDir = req.app.locals.config.uploadDir;
+
+	form.parse(req, function(err, fields, files){
+		if(err){
+			return res.json({
+				code: '0',
+				message: 'fail'
+			});
+		}
+
+		let pic = files.pic;
+		let temPath = pic.path;
+		let name = pic.name;
+
+		let newPath = temPath + path.extname(name);
+		fs.rename(temPath, newPath, function(){
+			res.json({
+				code: '1',
+				message: `/upload/picture/${path.basename(newPath)}`
+			});
 		});
 	});
 };

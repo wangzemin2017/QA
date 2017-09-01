@@ -31,7 +31,7 @@ User.getByUsername = function(username, callback){
 };
 
 User.changeAvatarById = function(avatarPath, id, callback){
-	db.query('UPDATE user SET avatarPath = ? WHERE id = ?', [avatarPath, id], function(err, result){
+	db.query('UPDATE user SET avatarPath =? WHERE id =?', [avatarPath, id], function(err, result){
 		if(err){
 			return callback(err, null);
 		}

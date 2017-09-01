@@ -14,9 +14,9 @@
         <div class="aw-user-setting">
           <div class="tabbable">
             <ul class="nav nav-tabs aw-nav-tabs active">
-              <li class="active"><a href="http://wenda.golaravel.com/setting/profile/">基本资料</a></li>
-
               <h2><i class="icon icon-setting"></i> 用户设置</h2>
+              <li class="active"><a href="javascript:;">基本资料</a></li>
+
             </ul>
           </div>
           <div class="tab-content clearfix">
@@ -27,8 +27,7 @@
                   <div class="mod-head">
                     <h3>基本信息</h3>
                   </div>
-                  <form id="setting_form" method="post"
-                        action="http://wenda.golaravel.com/account/ajax/profile_setting/">
+                  <form id="setting_form" method="post" action="#">
                     <div class="mod-body">
                       <dl>
                         <dt>用户名:</dt>
@@ -58,14 +57,17 @@
                       </dl>
                       <dl>
                         <dt><label>介绍:</label></dt>
-                        <dd class="introduce"><input class="form-control" name="signature" maxlength="128" type="text"
-                                                     value=""/></dd>
+                        <dd class="introduce">
+                          <input class="form-control" name="signature" maxlength="128" type="text" value=""/>
+                        </dd>
                       </dl>
 
                       <!-- 上传头像 -->
                       <div class="side-bar">
                         <dl>
-                          <dt class="pull-left"><img data-id="" class="aw-border-radius-5" src="/upload/avatar/{{avatarPath}}" alt="用户头像" id="img_avatar"/></dt>
+                          <dt class="pull-left">
+                            <img data-id="" class="aw-border-radius-5" src="/upload/avatar/{{user.avatarPath}}" alt="用户头像" id="img_avatar"/>
+                          </dt>
                           <dd class="pull-left">
                             <h5>头像设置</h5>
                             <p>支持 jpg、gif、png 等格式的图片</p>
