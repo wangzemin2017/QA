@@ -162,7 +162,7 @@
     var xhr = new XMLHttpRequest();
 
     // 2. 配置请求
-    xhr.open('post', '/article/upload');
+    xhr.open('post', '/ask/upload');
 
     // 3. 设置成功之后的回调函数
     xhr.onreadystatechange = function () {

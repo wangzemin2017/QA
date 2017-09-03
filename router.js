@@ -12,18 +12,33 @@ router.get('/', mainCtrl.showMain);
 
 router.get('/page/:pageNumber', questionCtrl.showByPageNum);
 
-router.get('/register', userCtrl.showRegister);
+router.get('/register', [hasAuthority,userCtrl.showRegister]);
 router.post('/register', userCtrl.register);
-router.get('/login', userCtrl.showLogin);
+router.get('/login', [hasAuthority,userCtrl.showLogin]);
 router.post('/login', userCtrl.login);
 router.get('/logout', userCtrl.logout);
 router.get('/settings', userCtrl.showPersonalPage);
-router.post('/settings', userCtrl.changeAvatar);
+router.post('/settings', [notAuthority,userCtrl.changeAvatar]);
 
-router.get('/ask', questionCtrl.showAsk);
+router.get('/ask', [notAuthority,questionCtrl.showAsk]);
 router.post('/ask', questionCtrl.ask);
+router.post('/ask/upload', questionCtrl.uploadPicture);
 router.get('/question/:id', questionCtrl.showQuestion);
 router.get('/edit/:id', questionCtrl.showEdit);
 router.post('/edit/:id', questionCtrl.edit);
+
+function hasAuthority(){
+	if(req.session.user){
+		return res.redirect('/');
+	}
+	next();
+}
+
+function notAuthority(){
+	if(!req.session.user){
+		return res.redirect('/');
+	}
+	next();
+}
 
 module.exports = router;
