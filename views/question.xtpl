@@ -33,7 +33,7 @@
 									<a class="text-color-999" href="/edit/{{question.id}}">
                     <i class="icon icon-edit"></i> 编辑
                   </a>
-									<em class="text-color-999">1 天前</em>
+									<em class="text-color-999">{{question.time}}</em>
 								</span>
 
 
@@ -74,7 +74,7 @@
           <!-- 回复编辑器 -->
           <div class="aw-mod aw-article-replay-box">
             <a name="answer_form"></a>
-            <form action="/comment/post/{{article.id}}" method="post" id="answer_form">
+            <form action="javascript:;" method="post" id="answer_form">
               <input type="hidden" name="post_hash" value="d30f6ed9a5915808"/>
               <input type="hidden" name="article_id" value="314"/>
               <div class="mod-head">
@@ -104,11 +104,11 @@
               <dl>
                 <dt class="pull-left aw-border-radius-5">
                   <a href="#">
-                    <img alt="avatar" src="http://wenda.golaravel.com/uploads/avatar/000/00/36/75_avatar_mid.jpg"/>
+                    <img alt="avatar" src="/upload/avatar/{{avatarPath}}"/>
                   </a>
                 </dt>
                 <dd class="pull-left">
-                  <a class="aw-user-name" href="#" data-id="3675">{{user.username}}</a>
+                  <a class="aw-user-name" href="#" data-id="3675">{{author}}</a>
                   <p></p>
                 </dd>
               </dl>

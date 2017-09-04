@@ -40,13 +40,22 @@ Question.getAllCount = function(callback){
 };
 
 Question.getByPageNumber = function(skipNumber, pageSize, callback){
-	db.query('SELECT * FROM question as q INNER JOIN user as u ON q.userId = u.id ORDER BY time DESC LIMIT ?, ?', 
+	db.query('SELECT q.id, q.title, q.time, u.username FROM question as q INNER JOIN user as u ON q.userId = u.id ORDER BY time DESC LIMIT ?, ?', 
 		[skipNumber, pageSize], 
 		function(err, result){
 			if(err){
 				return callback(err, null);
 			}
 			callback(null, result);
+	});
+};
+
+Question.updateEdit = function(title, content, time, id, callback){
+	db.query('UPDATE question SET title =?, content =?, time =? WHERE id =?', [title, content, time, id], function(err, result){
+		if(err){
+			return callback(err, null);
+		}
+		callback(null, result);
 	});
 };
 

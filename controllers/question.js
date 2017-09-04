@@ -63,11 +63,20 @@ exports.showQuestion = function(req, res, next){
 		if(err){
 			return next(err);
 		}
-		question.content = md().render(question.content);
-		res.render('question.xtpl', {
-			user: req.session.user,
-			question: question
-		});
+		User.getById(question.userId, function(err, user){
+			if(err){
+				return next(err);
+			}
+			question.content = md().render(question.content);
+			question.time = moment(question.time).startOf('second').fromNow();
+			return res.render('question.xtpl', {
+				user: req.session.user,
+				question: question,
+				author: user.username,
+				avatarPath: user.avatarPath
+			});
+		})
+		
 	});
 };
 
@@ -76,6 +85,11 @@ exports.showEdit = function(req, res, next){
 	Question.getByQuestionId(id, function(err, question){
 		if(err){
 			return next(err);
+		}
+		if(question.userId !== req.session.user.id){
+			return res.render('no-authority.xtpl', {
+				user: req.session.user
+			});
 		}
 		res.render('edit.xtpl', {
 			user: req.session.user,
@@ -91,7 +105,7 @@ exports.edit = function(req, res, next){
 	let title = req.body.title.trim();
 	let content = req.body.content;
 	let time = moment().format('YYYY-MM-DD HH:mm:ss');
-	let userId = req.session.user.id;
+	let id = req.params.id;
 
 	if(title === '' || content === ''){
 		return res.json({
@@ -99,26 +113,13 @@ exports.edit = function(req, res, next){
 			message: '标题或内容不能为空！'
 		});
 	}
-	let question = new Question({
-		title,
-		content,
-		time,
-		userId
-	});
-	question.save(function(err, question){
+	Question.updateEdit(title, content, time, id, function(err, result){
 		if(err){
 			return next(err);
 		}
-		if(question.insertId <= 0){
-			return res.json({
-				code: '0',
-				message: 'fail'
-			});
+		if(result.affectedRows > 0){
+			return res.redirect('/');
 		}
-		res.json({
-			code: '1',
-			message: question.insertId
-		});
 	});
 };
 

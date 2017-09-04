@@ -30,6 +30,15 @@ User.getByUsername = function(username, callback){
 	});
 };
 
+User.getById = function(id, callback){
+	db.query('SELECT * FROM user WHERE id=?', [id], function(err, result){
+		if(err){
+			return callback(err, null);
+		}
+		callback(null, result[0]);
+	});
+};
+
 User.changeAvatarById = function(avatarPath, id, callback){
 	db.query('UPDATE user SET avatarPath =? WHERE id =?', [avatarPath, id], function(err, result){
 		if(err){

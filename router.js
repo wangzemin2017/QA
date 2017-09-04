@@ -27,14 +27,14 @@ router.get('/question/:id', questionCtrl.showQuestion);
 router.get('/edit/:id', questionCtrl.showEdit);
 router.post('/edit/:id', questionCtrl.edit);
 
-function hasAuthority(){
+function hasAuthority(req, res, next){
 	if(req.session.user){
 		return res.redirect('/');
 	}
 	next();
 }
 
-function notAuthority(){
+function notAuthority(req, res, next){
 	if(!req.session.user){
 		return res.redirect('/');
 	}
