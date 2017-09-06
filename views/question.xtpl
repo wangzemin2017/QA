@@ -20,74 +20,72 @@
 
             </div>
             <div class="mod-body">
-              <div class="content markitup-box">
+                <div class="content markitup-box">
                 {{{question.content}}}
-              </div>
-              <div class="meta clearfix">
-                <div class="aw-article-vote pull-left disabled">
-                  <a href="javascript:;" class="agree" onclick="AWS.User.article_vote($(this), 314, 1);"><i
-                          class="icon icon-agree"></i> <b>0</b></a>
                 </div>
+                <div class="meta clearfix">
+                    <div class="aw-article-vote pull-left disabled">
+                        <a href="javascript:;" class="agree" onclick="AWS.User.article_vote($(this), 314, 1);"><i class="icon icon-agree"></i> <b>0</b></a>
+                    </div>
 
-								<span class="pull-right  more-operate">
-									<a class="text-color-999" href="/edit/{{question.id}}">
-                    <i class="icon icon-edit"></i> 编辑
-                  </a>
-									<em class="text-color-999">{{question.time}}</em>
-								</span>
-
-
-              </div>
+    				<span class="pull-right  more-operate">
+                        {{#if (user)}}
+        				<a class="text-color-999" href="/edit/{{question.id}}">
+                            <i class="icon icon-edit"></i> 编辑
+                        </a>
+                        {{/if}}
+        				<em class="text-color-999">{{question.time}}</em>
+    				</span>
+                </div>
             </div>
             <div class="mod-footer">
             </div>
           </div>
 
-          <!-- 文章评论 -->
+          <!-- 问题回答 -->
           <div class="aw-mod">
             <div class="mod-head common-head">
               <h2>3 个评论</h2>
             </div>
 
             <div class="mod-body aw-feed-list" id="comment_container">
-              <div class="aw-item">
-                <a class="aw-user-name" href="#">
-                  <img src="http://wenda.golaravel.com/uploads/avatar/000/00/36/75_avatar_mid.jpg" alt="avatar"/>
-                </a>
-                <div class="content">
-                  <p>
-                    <a href="#">peng</a></p>
-                  <div class="markitup-box">
-                    123
-                  </div>
-                  <div class="meta">
-                    <span class="pull-right text-color-999">31 秒前</span>
-                  </div>
+                <div class="aw-item">
+                    <a class="aw-user-name" href="#">
+                        <img src="http://wenda.golaravel.com/uploads/avatar/000/00/36/75_avatar_mid.jpg" alt="avatar"/>
+                    </a>
+                    <div class="content">
+                        <p>
+                            <a href="#">peng</a>
+                        </p>
+                        <div class="markitup-box">123</div>
+                        <div class="meta">
+                            <span class="pull-right text-color-999">31 秒前</span>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
 
 
           </div>
-          <!-- end 文章评论 -->
+          <!-- end 问题回答 -->
 
           <!-- 回复编辑器 -->
           <div class="aw-mod aw-article-replay-box">
-            <a name="answer_form"></a>
-            <form action="javascript:;" method="post" id="answer_form">
-              <input type="hidden" name="post_hash" value="d30f6ed9a5915808"/>
-              <input type="hidden" name="article_id" value="314"/>
+            
+            <form action="/answer/{{question.id}}" method="post" id="answer_form">
+              <!-- <input type="hidden" name="post_hash" value="d30f6ed9a5915808"/> -->
+              <input type="hidden" name="questionId" value="{{question.id}}"/>
               <div class="mod-head">
                 <a href="#" class="aw-user-name">
-                  <img alt="avatar" src="http://wenda.golaravel.com/uploads/avatar/000/00/36/75_avatar_mid.jpg"/>
+                  <img alt="avatar" src="/upload/avatar/{{avatarPath}}"/>
                 </a>
               </div>
               <div class="mod-body">
-                <textarea rows="3" name="content" id="comment_editor" class="form-control autosize"placeholder="写下你的评论..."/>
-                </textarea>
+                <textarea rows="3" name="content" id="comment_editor" class="form-control autosize" placeholder="写下你的评论..."/></textarea>
               </div>
               <div class="mod-footer clearfix">
-                <input class="btn btn-normal btn-success pull-right btn-submit" type="submit" value="回复">
+                <!-- <input class="btn btn-normal btn-success pull-right" type="submit" value="回复"> -->
+                <button class="btn btn-normal btn-success pull-right btn-submit">回答</button>
               </div>
             </form>
           </div>
@@ -127,9 +125,50 @@
 </div>
 {{/block}}
 {{#block ("foot")}}
+<script type="text/template" id="answerTpl">
+    <% answers.forEach(function(answer){ %>
+        <div class="mod-body aw-feed-list" id="comment_container">
+            <div class="aw-item">
+                <a class="aw-user-name" href="#">
+                    <img src="{{answer.avatarPath}}" alt="avatar"/>
+                </a>
+                <div class="content">
+                    <p>
+                        <a href="#">{{answer.username}}</a>
+                    </p>
+                    <div class="markitup-box">{{answer.content}}</div>
+                    <div class="meta">
+                        <span class="pull-right text-color-999">{{answer.time}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+</script>
 <script>
+    var $form = $('#answer_form');
+    $form.on('submit', function(e){
+    //此处将form表单自身的提交事件禁止了，但是同时也把“没登录用户回答问题时应跳到注册页面”的事件禁止了
+        e.preventDefault(); 
 
+        var url = $(this).attr('action');
+        var method = $(this).attr('method');
 
+        $.ajax({
+            url: url,
+            type: method,
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function(data){
+                if(data && data.code == 1){
+                    window.location.reload('/question/{{question.id}}');
+                }
+            },
+            error: function(){
+
+            } 
+        });
+    });
 
 </script>
 {{/block}}

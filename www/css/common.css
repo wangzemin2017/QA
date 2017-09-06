@@ -283,13 +283,13 @@ table td {
 
 .aw-main-content {
     padding: 0 0 20px;
-    /* border-right: 1px solid #e6e6e6; */
+     border-right: 1px solid #e6e6e6; 
 }
 
 .aw-side-bar {
     margin-left: -1px;
     padding: 20px;
-    border-left: 1px solid #e6e6e6
+    /*border-left: 1px solid #e6e6e6;*/
 }
 
 .aw-mod .mod-head h4, .aw-mod .mod-head h4 a {
