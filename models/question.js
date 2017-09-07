@@ -40,7 +40,7 @@ Question.getAllCount = function(callback){
 };
 
 Question.getByPageNumber = function(skipNumber, pageSize, callback){
-	db.query('SELECT q.id, q.title, q.time, u.username FROM question as q INNER JOIN user as u ON q.userId = u.id ORDER BY time DESC LIMIT ?, ?', 
+	db.query('SELECT q.id, q.title, q.time, u.username, u.avatarPath FROM question as q INNER JOIN user as u ON q.userId = u.id ORDER BY time DESC LIMIT ?, ?', 
 		[skipNumber, pageSize], 
 		function(err, result){
 			if(err){

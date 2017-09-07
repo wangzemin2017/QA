@@ -66,7 +66,7 @@
                       <div class="side-bar">
                         <dl>
                           <dt class="pull-left">
-                            <img data-id="" class="aw-border-radius-5" src="/upload/avatar/{{user.avatarPath}}" alt="用户头像" id="img_avatar"/>
+                            <img data-id="" style="width: 100px; height: 100px" class="aw-border-radius-5" src="/upload/avatar/{{user.avatarPath}}" alt="用户头像" id="img_avatar"/>
                           </dt>
                           <dd class="pull-left">
                             <h5>头像设置</h5>
@@ -95,7 +95,7 @@
   </div>
 
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -123,41 +123,43 @@
 
   {{#block ("foot")}}
   <script>
-    $('#btn_upload').on('click', function () {
+$('#avatar_uploader').on('click', function(){
+    $('#myModal').modal('show');
 
-      var formData = new FormData();
+    $('#btn_upload').on('click', function(){
 
-      formData.append('avatar', document.querySelector('#avatar').files[0]);
+        var formData = new FormData();
 
-      // 1. 新建一个xhr对象
-      var xhr = new XMLHttpRequest();
+        formData.append('avatar', document.querySelector('#avatar').files[0]);
 
-      // 2. 配置请求
-      xhr.open('post', '/settings');
+        // 1. 新建一个xhr对象
+        var xhr = new XMLHttpRequest();
 
-      // 3. 设置成功之后的回调函数
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log(xhr.responseText)
-          var data = JSON.parse(xhr.responseText);
+        // 2. 配置请求
+        xhr.open('post', '/settings');
 
-          if (data && data.code == 1) {
-            var src = data.message;
-            console.log(src)
+        // 3. 发送,发送文件数据
+        xhr.send(formData);
 
-            // 上传成功之后，将用户头像重新设置一下src即可
+        // 4. 设置成功之后的回调函数
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200){
+                var data = JSON.parse(xhr.responseText);
 
-            $('#img_avatar').attr('src', src);
+                if (data && data.code == 1){
+                    var src = data.message;
 
-            // 让模态框隐藏
-            $('#myModal').modal('hide');
-          }
-        }
-      };
+                    // 上传成功之后，将用户头像重新设置一下src即可
 
-      // 4. 发送,发送文件数据
-      xhr.send(formData);
+                    $('#img_avatar').attr('src', src);
+
+                    // 让模态框隐藏
+                    $('#myModal').modal('hide');
+                }
+            }
+        };
 
     });
+});
   </script>
   {{/block}}

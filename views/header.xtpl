@@ -57,7 +57,7 @@
 
       {{#if (user)}}
       <a href="#" class="aw-user-nav-dropdown">
-      <img alt="avatar" src="/www/img/{{user.avatarPath}}"/>
+      <img alt="avatar" src="/upload/avatar/{{user.avatarPath}}"/>
       </a>
       <div class="aw-dropdown dropdown-list pull-right">
       <ul class="aw-dropdown-list">

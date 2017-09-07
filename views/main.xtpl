@@ -50,7 +50,7 @@
   <% questions.forEach(function(question){ %>
     <div class="aw-item active" data-topic-id="57,">
       <a class="aw-user-name hidden-xs" data-id="3654" href="/people/" rel="nofollow">
-        <img src="/www/img/avatar.png" alt=""/>
+        <img src="/upload/avatar/<%= question.avatarPath %>" alt=""/>
       </a>
       <div class="aw-question-content">
         <h4>
@@ -94,6 +94,7 @@
         success:function (data) {
 
           var result = data.questions;
+          
 
           // 获取模板字符串
           var tmpStr = $('#template').html();

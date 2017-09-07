@@ -143,7 +143,7 @@ exports.showPersonalPage = function(req, res, next){
 
 exports.changeAvatar = function(req, res, next){
 	let form = new formidable.IncomingForm();
-	form.encoding = 'utf-8';
+	//form.encoding = 'utf-8';
 	form.uploadDir = req.app.locals.config.avatarDir;
 
 	form.parse(req, function(err, fields, files){
@@ -161,24 +161,21 @@ exports.changeAvatar = function(req, res, next){
 		
 		let newPath = temPath + path.extname(name);
 		fs.rename(temPath, newPath, function(){
-			gm(newPath).resize(100, 100, '!')
-				.write(newPath, function(err){
-					if(err){
-						return next(err);
-					}
-					let userId = req.session.user.id;
-					User.changeAvatarById(path.basename(newPath), userId, function(err, result){
-						if(err){
-							return next(err);
-						}
-						if(result.affectedRows > 0){
-							return res.json({
-								code: '1',
-								message: `/upload/avatar/${path.basename(newPath)}`
-							});
-						}
+			if(err){
+				return next(err);
+			}
+			let userId = req.session.user.id;
+			User.changeAvatarById(path.basename(newPath), userId, function(err, result){
+				if(err){
+					return next(err);
+				}
+				if(result.affectedRows > 0){
+					return res.json({
+						code: '1',
+						message: `/upload/avatar/${path.basename(newPath)}`
 					});
-				});
+				}
+			});
 		});
 	});
 };
